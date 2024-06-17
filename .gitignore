@@ -28,6 +28,5 @@ node_modules/
 osm.tar.gz
 clean.png
 backup
-backup/*
 ips
 pixelplanetmap.zip

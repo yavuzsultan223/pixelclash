@@ -7,6 +7,7 @@ const path = require('path');
 const process = require('process');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const LicenseListWebpackPlugin = require('./scripts/LicenseListWebpackPlugin');
 
 /*
  * make sure we build in root dir
@@ -114,7 +115,7 @@ module.exports = ({
                 plugins: babelPlugins,
               },
             },
-            path.resolve('scripts/TtagNonCacheableLoader.js'),
+            path.resolve('scripts', 'TtagNonCacheableLoader.js'),
           ],
           include: [
             path.resolve('src'),
@@ -133,6 +134,9 @@ module.exports = ({
         'process.env.NODE_ENV': development ? '"development"' : '"production"',
         'process.env.BROWSER': true,
       }),
+      
+      // Output license informations
+      new LicenseListWebpackPlugin({ outputDir: 'librejs', includeLicenseFiles: true, includeSourceFiles: true }),
 
       // Webpack Bundle Analyzer
       // https://github.com/th0r/webpack-bundle-analyzer

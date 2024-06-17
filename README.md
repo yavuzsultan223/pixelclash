@@ -3,16 +3,14 @@
 
 [![Guilded](https://img.shields.io/badge/Discord-Support-blue.svg)](https://pixelplanet.fun/guilded)
 
-Official  repository of [pixelplanet.fun](http://www.pixelplanet.fun).
-
 ![videothumb](promotion/videothumb.gif)
 
 > Our translations are hosted [on Weblate](https://hosted.weblate.org/projects/pixelplanet), information on how to contribute is available under [i18n](./i18n). We very much appreciate any help. 
 
 [![Translation status](https://hosted.weblate.org/widget/pixelplanet/svg-badge.svg)](https://hosted.weblate.org/engage/pixelplanet/)
 
-To the 2nd anniversary of r/space, pixelplanet takes pixelgames to a new level. Place pixels, create pixelart and fight faction wars on pixelplanet.fun.
-Pixelplanet is a 65k x 65k large canvas that is a map of the world and can also be seen as 3d globe, you can place pixels where ever you want, build an island, take over another country with a flag or just create pixelart.
+To the 2nd anniversary of r/space, pixelplanet takes pixelgames to a new level. Place pixels, create pixelart and fight faction wars.
+Pixelplanet presents a 65k x 65k large canvas that is a map of the world and can also be seen as 3d globe, you can place pixels where ever you want, build an island, take over another country with a flag or just create pixelart.
 30 well chosen colors (decided by polls within the community) are available and you can place a pixel every 3s on an empty space, and 5s on an already set pixel. But pixels can be stacked up to a minute, so you don't have to wait every time.
 
 Pixelplanet receives regular updates and launches events, like a zero second cooldown day on r/place anniversary. We are driven by our community, because placing pixels is more fun together.
@@ -84,7 +82,7 @@ Configuration takes place in the environment variables that are defined in ecosy
 | BACKUP_DIR        | mounted directory of backup server    | "/mnt/backup/"            |
 | HOURLY_EVENT      | run hourly void event on main canvas  | 1                         |
 | USE_MAILER        | enable to use mail sevicse            | 0                         |
-| MAIL_ADDRESS      | email address for sending mails       | "noreply@pixelplanet.fun" |
+| MAIL_ADDRESS      | email address for sending mails       | "noreply@example.com" |
 
 #### Social Media Configuration
 

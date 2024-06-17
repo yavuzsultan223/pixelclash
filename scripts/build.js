@@ -11,6 +11,7 @@ const webpack = require('webpack');
 const validate = require("ttag-cli/dist/src/commands/validate").default;
 
 const minifyCss = require('./minifyCss');
+const zipDir = require('./zipDirectory');
 const serverConfig = require('../webpack.config.server.js');
 const clientConfig = require('../webpack.config.client.js');
 
@@ -146,7 +147,7 @@ function validateLangs(langs) {
       process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
       process.stdout.write(`i18n/${langFile} `);
-      filePath = path.join(langDir, langFile);
+      const filePath = path.join(langDir, langFile);
       if (!fs.existsSync(filePath)) {
         continue;
       }
@@ -338,6 +339,13 @@ async function build() {
 
   if (!recursion) {
     console.log(`Finished building in ${(Date.now() - st) / 1000}s`);
+    /*
+    console.log('Archiving Source');
+    await zipDir(
+      path.resolve(__dirname, '..'),
+      path.resolve(__dirname, '..', 'dist', 'public', `source.zip`),
+    );
+    */
   } else {
     console.log(`Worker done in ${(Date.now() - st) / 1000}s`);
   }

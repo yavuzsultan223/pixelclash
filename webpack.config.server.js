@@ -18,6 +18,7 @@ process.chdir(__dirname);
 const basePackageValues = {
   name: pkg.name,
   version: pkg.version,
+  license: pkg.license,
   private: true,
   engines: pkg.engines,
   scripts: {
