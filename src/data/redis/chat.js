@@ -5,6 +5,7 @@ import client from './client';
 import { PREFIX as ALLOWED_PREFIX } from './isAllowedCache';
 
 const MUTE_PREFIX = 'mute';
+const MUTEIP_PREFIX = 'muteip';
 const MUTEC_PREFIX = 'mutec';
 
 /*
@@ -18,11 +19,13 @@ export async function allowedChat(
 ) {
   const mutecKey = `${MUTEC_PREFIX}:${channelId}`;
   const muteKey = `${MUTE_PREFIX}:${userId}`;
+  const muteIpKey = `${MUTEIP_PREFIX}:${ip}`;
   const isalKey = `${ALLOWED_PREFIX}:${ip}`;
   const country = (cc?.length !== 2 || userId < 5000) ? 'nope' : cc;
   return client.allowedChat(
     mutecKey,
     muteKey,
+    muteIpKey,
     isalKey,
     country,
   );
@@ -38,29 +41,40 @@ export async function checkIfMuted(userId) {
 }
 
 /*
- * mute user
+ * mute user and their IP
  * @param userId
+ * @param ip
  * @param ttl mute time in minutes
  */
-export function mute(userId, ttl) {
-  const key = `${MUTE_PREFIX}:${userId}`;
+export function mute(userId, ip, ttl) {
+  const keyUser = `${MUTE_PREFIX}:${userId}`;
+  const keyIp = ip ? `${MUTEIP_PREFIX}:${ip}` : null;
+
   if (ttl) {
-    return client.set(key, '', {
-      EX: ttl * 60,
-    });
+    const promises = [client.set(keyUser, '', { EX: ttl * 60 })];
+    if (keyIp) promises.push(client.set(keyIp, '', { EX: ttl * 60 }));
+    return Promise.all(promises);
   }
-  return client.set(key, '');
+
+  const promises = [client.set(keyUser, '')];
+  if (keyIp) promises.push(client.set(keyIp, ''));
+  return Promise.all(promises);
 }
 
 /*
- * unmute user
+ * unmute user and their IP
  * @param userId
- * @return boolean for success
+ * @param ip
+ * @return boolean for success (user unmuted)
  */
-export async function unmute(userId) {
-  const key = `${MUTE_PREFIX}:${userId}`;
-  const ret = await client.del(key);
-  return ret !== 0;
+export async function unmute(userId, ip) {
+  const keyUser = `${MUTE_PREFIX}:${userId}`;
+  const keyIp = ip ? `${MUTEIP_PREFIX}:${ip}` : null;
+
+  const userDel = await client.del(keyUser);
+  if (keyIp) await client.del(keyIp);
+
+  return userDel !== 0;
 }
 
 /*

@@ -1,7 +1,3 @@
-/**
- *
- */
-
 import React, { Suspense, useCallback, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { t } from 'ttag';
@@ -15,11 +11,8 @@ import LogInArea from '../LogInArea';
 import Tabs from '../Tabs';
 import UserAreaContent from '../UserAreaContent';
 
-// eslint-disable-next-line max-len
 const Rankings = React.lazy(() => import(/* webpackChunkName: "stats" */ '../Rankings'));
-// eslint-disable-next-line max-len
 const Converter = React.lazy(() => import(/* webpackChunkName: "converter" */ '../Converter'));
-// eslint-disable-next-line max-len
 const Modtools = React.lazy(() => import(/* webpackChunkName: "modtools" */ '../Modtools'));
 
 const UserArea = () => {
@@ -27,20 +20,12 @@ const UserArea = () => {
   const userlvl = useSelector((state) => state.user.userlvl);
   const lastStatsFetch = useSelector((state) => state.ranks.lastFetch);
 
-  const {
-    args,
-    setArgs,
-    setTitle,
-  } = useContext(WindowContext);
-  const {
-    activeTab = t`Profile`,
-  } = args;
+  const { args, setArgs, setTitle } = useContext(WindowContext);
+  const { activeTab = t`Profile` } = args;
   const dispatch = useDispatch();
 
   const setActiveTab = useCallback((label) => {
-    setArgs({
-      activeTab: label,
-    });
+    setArgs({ activeTab: label });
     setTitle(label);
   }, [setArgs, setTitle]);
 
@@ -54,7 +39,7 @@ const UserArea = () => {
     <div style={{ textAlign: 'center' }}>
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab}>
         <div label={t`Profile`}>
-          {(name) ? <UserAreaContent /> : <LogInArea />}
+          {name ? <UserAreaContent /> : <LogInArea />}
         </div>
         <div label={t`Statistics`}>
           <Suspense fallback={<div>Loading...</div>}>
@@ -66,17 +51,30 @@ const UserArea = () => {
             <Converter />
           </Suspense>
         </div>
-        {userlvl && (
-        <div label={(userlvl === 1) ? t`Modtools` : t`Modtools`}>
-          <Suspense fallback={<div>{t`Loading...`}</div>}>
-            <Modtools />
-          </Suspense>
+
+        {/* New Factions tab */}
+        <div label={t`Factions`}>
+          {/* You can load factions.html in an iframe, or if you have a React component for factions, use it here */}
+          <iframe
+            src="/factions.html"
+            title="Factions"
+            style={{ width: '100%', height: '600px', border: 'none' }}
+          />
         </div>
+
+        {userlvl && (
+          <div label={userlvl === 1 ? t`Modtools` : t`Modtools`}>
+            <Suspense fallback={<div>{t`Loading...`}</div>}>
+              <Modtools />
+            </Suspense>
+          </div>
         )}
       </Tabs>
       <br />
       {t`Consider joining us on Guilded:`}&nbsp;
-      <a href="./guilded" target="_blank">pixelplanet.fun/guilded</a>
+      <a href="./guilded" target="_blank" rel="noopener noreferrer">
+        pixelplanet.fun/guilded
+      </a>
       <br />
     </div>
   );
